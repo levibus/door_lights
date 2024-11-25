@@ -4,27 +4,33 @@
 
 block check_next_block(CRGB leds[], snake mySnake) {
   int next_block_index = -1;
+  int next_next_block_index = -1;
+  block next_block;
   if (mySnake.direction_left == true) {
     next_block_index = (mySnake.head + 1) % 150;
+    next_next_block_index = (mySnake.head + 2) % 150;
   } else {
     next_block_index = mySnake.head - 1;
+    next_next_block_index = mySnake.head - 2;
     if (next_block_index < 0) {
       next_block_index += 150;
+    }
+    if (next_next_block_index < 0) {
+      next_next_block_index += 150;
     }
   }
 
   if ((leds[next_block_index].r == 0) && (leds[next_block_index].g == 0) && (leds[next_block_index].b == 0)) {
-    return CLEAR;
+    next_block = CLEAR;
   } else if ((leds[next_block_index].r == brightness) && (leds[next_block_index].g == 0) && (leds[next_block_index].b == 0)) {
-    return APPLE;
+    next_block = APPLE;
   } else if ((leds[next_block_index].r == 0) && (leds[next_block_index].g == 0) && (leds[next_block_index].b == brightness)) {
-    return WALL;
-  } else if ((leds[next_block_index].r == 0) && (leds[next_block_index].g > 0) && (leds[next_block_index].b == 0)) {
-    return JORMUNGANDR;
-  } else {
-    Serial.println("error: block not found");
-    return ERROR;
+    next_block = WALL;
   }
+  if ((leds[next_next_block_index].r == 0) && (leds[next_next_block_index].g > 0) && (leds[next_next_block_index].b == 0)) {
+    next_block = JORMUNGANDR;
+  } 
+  return next_block;
 }
 
 void printCRGB(const CRGB &color) {
@@ -37,7 +43,6 @@ void printCRGB(const CRGB &color) {
 }
 
 void onModeButtonPress() {
-
   currentMode = (currentMode + 1) % 3;
 }
 

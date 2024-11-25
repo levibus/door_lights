@@ -18,9 +18,9 @@ int brightness = 25;
 volatile bool timerTriggered = false;
 
 enum mode {
-  // SPEEDWAY,
+  SPEEDWAY,
   SNAKE,
-  // COLOR,
+  COLOR,
 };
 
 mode currentMode = SNAKE;

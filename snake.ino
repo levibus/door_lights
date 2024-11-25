@@ -22,17 +22,18 @@ void run_snake(CRGB leds[], snake& mySnake) {
     }
   }
 
-  if (apple) {
-    grow_snake(mySnake);
-    apple = false;
-  }
+  // if (apple) {
+  //   grow_snake(mySnake);
+  //   apple = false;
+  // }
 
   nextBlock = check_next_block(leds, mySnake);
   if (nextBlock == CLEAR) {
-    iterate_snake(leds, mySnake);
+    iterate_snake(leds, mySnake, nextBlock);
   } else if (nextBlock == APPLE) {
     apple = true;
-    iterate_snake(leds, mySnake);
+    iterate_snake(leds, mySnake, nextBlock); // move to next iteration
+    grow_snake(mySnake);
   } else if (nextBlock == WALL) {
     wall_break(leds, mySnake);
     change_snake_direction(mySnake);
@@ -44,7 +45,7 @@ void run_snake(CRGB leds[], snake& mySnake) {
   }
 }
 
-void iterate_snake(CRGB leds[], snake& mySnake) {
+void iterate_snake(CRGB leds[], snake& mySnake, block nextBlock) {
   int tail = 0;
 
   if (mySnake.direction_left) {
@@ -66,10 +67,12 @@ void iterate_snake(CRGB leds[], snake& mySnake) {
     FastLED.show();
   }
   delay(50);
-  for (int color_brightness = brightness; color_brightness >= 0; color_brightness -= 5) {
-    if ((leds[tail].r == 0) && (leds[tail].g > 0) && (leds[tail].b == 0)) {
-      leds[tail] = CRGB(0, color_brightness, 0); // Reduce brightness to create fade-out effect
-      FastLED.show();
+  if (nextBlock != APPLE) {
+    for (int color_brightness = brightness; color_brightness >= 0; color_brightness -= 5) {
+      if ((leds[tail].r == 0) && (leds[tail].g > 0) && (leds[tail].b == 0)) {
+        leds[tail] = CRGB(0, color_brightness, 0); // Reduce brightness to create fade-out effect
+        FastLED.show();
+      }
     }
   }
   delay(50);
