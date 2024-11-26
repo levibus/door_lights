@@ -5,7 +5,7 @@
 
 #define DATA_PIN 2
 #define MODE_PIN 4
-#define INTERACTION_PIN 3
+#define INTERACTION_PIN 6
 #define RESET_PIN 8
 #define DEBOUNCE_DELAY 100  // Milliseconds for debounce delay
 
@@ -18,9 +18,9 @@ int brightness = 25;
 volatile bool timerTriggered = false;
 
 enum mode {
-  SPEEDWAY,
+  // SPEEDWAY,
   SNAKE,
-  COLOR,
+  // COLOR,
 };
 
 mode currentMode = SNAKE;

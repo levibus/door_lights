@@ -43,24 +43,32 @@ void printCRGB(const CRGB &color) {
 }
 
 void onModeButtonPress() {
-  currentMode = (currentMode + 1) % 3;
+  // if (debounce_button()) {
+  //   currentMode = (currentMode + 1) % 3;
+  // }
 }
 
 void onInteractionButtonPress() {
   if (debounce_button()) {
-    if (currentMode == SPEEDWAY) {
+    // if (currentMode == SPEEDWAY) {
 
-    } else if (currentMode == SNAKE) {
+    // } else if (currentMode == SNAKE) {
+    //   add_apple(leds);
+    //   add_wall(leds);
+    // } else {
+
+    // }
+    if (currentMode == SNAKE) {
       add_apple(leds);
       add_wall(leds);
-    } else {
-
     }
   }
 }
 
 void onResetButtonPress() {
-  wdt_enable(WDTO_15MS);
+  if (debounce_button()) {
+    wdt_enable(WDTO_15MS);
+  }
 }
 
 bool debounce_button() {
