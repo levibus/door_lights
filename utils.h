@@ -5,9 +5,9 @@
 
 #define DATA_PIN 2
 #define MODE_PIN 4
-#define INTERACTION_PIN 6
-#define RESET_PIN 8
-#define DEBOUNCE_DELAY 100  // Milliseconds for debounce delay
+#define INTERACTION_PIN 5
+#define RESET_PIN 6
+#define DEBOUNCE_DELAY 200  // Milliseconds for debounce delay
 
 volatile bool buttonPressed = false;
 unsigned long lastDebounceTime = 0;  // Timestamp to track debounce

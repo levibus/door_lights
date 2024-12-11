@@ -4,6 +4,7 @@
 #include <TimerOne.h>  // Include the TimerOne library
 #include "snake.h"
 #include "utils.h"
+#include <avr/interrupt.h>
 
 snake mySnake = {0, 3, true};
 
@@ -13,10 +14,6 @@ void setup() {
   pinMode(MODE_PIN, INPUT_PULLUP);
   pinMode(INTERACTION_PIN, INPUT_PULLUP);
   pinMode(RESET_PIN, INPUT_PULLUP);
-
-  attachInterrupt(digitalPinToInterrupt(MODE_PIN), onModeButtonPress, RISING);
-  attachInterrupt(digitalPinToInterrupt(INTERACTION_PIN), onInteractionButtonPress, RISING);
-  attachInterrupt(digitalPinToInterrupt(RESET_PIN), onResetButtonPress, RISING);
 
   wdt_enable(WDTO_8S);
 
@@ -29,6 +26,11 @@ void setup() {
 
   Timer1.initialize(5000000);  // 5 seconds = 5,000,000 microseconds
   Timer1.attachInterrupt(timer_1_ISR);
+
+  PCICR |= (1 << PCIE2);             // Enable pin change interrupts for PORTD
+  PCMSK2 |= (1 << PCINT20);          // Enable pin change interrupt for D4 (PCINT20)
+  PCMSK2 |= (1 << PCINT21);          // Enable pin change interrupt for D5 (PCINT21)
+  PCMSK2 |= (1 << PCINT22);          // Enable pin change interrupt for D6 (PCINT22)
 }
 
 void loop() {

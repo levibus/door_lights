@@ -42,13 +42,34 @@ void printCRGB(const CRGB &color) {
   Serial.println(color.b); // Blue component
 }
 
+ISR(PCINT2_vect) {
+  if (debounce_button()) {
+
+    if (digitalRead(MODE_PIN) == LOW) { 
+      Serial.println("mode");
+    }
+
+    if (digitalRead(INTERACTION_PIN) == LOW) { 
+      Serial.println("int");
+    }
+
+    if (digitalRead(RESET_PIN) == LOW) { 
+      Serial.println("reset");
+    }
+
+  }
+}
+
 void onModeButtonPress() {
-  // if (debounce_button()) {
-  //   currentMode = (currentMode + 1) % 3;
-  // }
+  Serial.println("press_mode");
+  if (debounce_button()) {
+    // currentMode = (currentMode + 1) % 3;
+    Serial.println("press_mode");
+  }
 }
 
 void onInteractionButtonPress() {
+  Serial.println("press_interact");
   if (debounce_button()) {
     // if (currentMode == SPEEDWAY) {
 
@@ -62,11 +83,14 @@ void onInteractionButtonPress() {
       add_apple(leds);
       add_wall(leds);
     }
+    Serial.println("press_interact");
   }
 }
 
 void onResetButtonPress() {
+  Serial.println("press_reset");
   if (debounce_button()) {
+    Serial.println("press_reset");
     wdt_enable(WDTO_15MS);
   }
 }
