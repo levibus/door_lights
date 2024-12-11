@@ -46,52 +46,20 @@ ISR(PCINT2_vect) {
   if (debounce_button()) {
 
     if (digitalRead(MODE_PIN) == LOW) { 
-      Serial.println("mode");
+      // currentMode = (currentMode + 1) % 3;
     }
 
     if (digitalRead(INTERACTION_PIN) == LOW) { 
-      Serial.println("int");
+      if (currentMode == SNAKE) {
+        add_apple(leds);
+        add_wall(leds);
+      }
     }
 
     if (digitalRead(RESET_PIN) == LOW) { 
-      Serial.println("reset");
+      wdt_enable(WDTO_15MS);
     }
 
-  }
-}
-
-void onModeButtonPress() {
-  Serial.println("press_mode");
-  if (debounce_button()) {
-    // currentMode = (currentMode + 1) % 3;
-    Serial.println("press_mode");
-  }
-}
-
-void onInteractionButtonPress() {
-  Serial.println("press_interact");
-  if (debounce_button()) {
-    // if (currentMode == SPEEDWAY) {
-
-    // } else if (currentMode == SNAKE) {
-    //   add_apple(leds);
-    //   add_wall(leds);
-    // } else {
-
-    // }
-    if (currentMode == SNAKE) {
-      add_apple(leds);
-      add_wall(leds);
-    }
-    Serial.println("press_interact");
-  }
-}
-
-void onResetButtonPress() {
-  Serial.println("press_reset");
-  if (debounce_button()) {
-    Serial.println("press_reset");
-    wdt_enable(WDTO_15MS);
   }
 }
 
